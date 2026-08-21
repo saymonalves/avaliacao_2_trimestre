@@ -1,33 +1,48 @@
-// =========================================================
-// ARQUIVO DE APOIO - NÃO HÁ UMA SOLUÇÃO PRONTA AQUI.
-// Desenvolva a lógica JavaScript da tarefa.
-// =========================================================
 const tela = document.getElementById("tela");
 const ctx = tela.getContext("2d");
 
+const cor = document.getElementById("cor");
+const limpar = document.getElementById("limpar");
+const exportar = document.getElementById("exportar");
 
 let desenhando = false;
 
-tela.onmousedown = () => {
-    desenhando = true;
-    ctx.beginPath();
-}
-tela.onmouseup = () => desenhando = false;
+ctx.lineWidth = 5;
+ctx.lineCap = "round";
+ctx.lineJoin = "round";
 
-tela.onmousemove = e => {
+tela.addEventListener("mousedown", function (e) {
+    desenhando = true;
+
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+})
+
+tela.addEventListener("mousemove", function (e) {
     if (!desenhando) return;
+
     ctx.strokeStyle = cor.value;
+
     ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
-};
+});
 
-tela.onmouseleave = () => {
+tela.addEventListener("mouseup", function () {
     desenhando = false;
     ctx.beginPath();
-}
-// Sugestão de organização:
-// 1. Selecione os elementos necessários.
-// 2. Crie as variáveis de estado, se necessário.
-// 3. Adicione os eventos.
-// 4. Implemente as funções.
-// 5. Teste cada requisito individualmente.
+});
+
+tela.addEventListener("mouseleave", function () {
+    desenhando = false;
+    ctx.beginPath();
+});
+
+
+limpar.addEventListener("click", function () {
+    ctx.clearRect(0, 0, tela.width, tela.height);
+    location.reload();
+
+});
+
+
+
